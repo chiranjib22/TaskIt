@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using TaskIt.Console.Enums;
 
 namespace TaskIt.Console.Models
 {
@@ -10,7 +11,21 @@ namespace TaskIt.Console.Models
         public Guid Id { get;} = Guid.NewGuid();
 
         private string _title;
-        public string Title { get; private set; }
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                if (value is null || string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Title can not be empty or null");
+                }
+                else _title = value;
+            }
+        }
         public DateTime CreatedAt { get; } = DateTime.Now;
         private DateTime? _dueDate;
         public DateTime? DueDate
@@ -26,5 +41,7 @@ namespace TaskIt.Console.Models
         }
 
         public DateTime? UpdateAt { get; private set; }
+        public Priority Priority{ get; set; }
+        public Status Status { get; set; } = Status.Pending;
     }
 }
