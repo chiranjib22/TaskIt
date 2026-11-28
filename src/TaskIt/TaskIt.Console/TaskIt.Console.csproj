@@ -8,9 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Menus\" />
-    <Folder Include="Utilities\" />
+    <Compile Remove="Menus\**" />
+    <EmbeddedResource Remove="Menus\**" />
+    <None Remove="Menus\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>

@@ -8,8 +8,8 @@ namespace TaskIt.Console.Models
 {
     public class Task
     {
+        // Data
         public Guid Id { get;} = Guid.NewGuid();
-
         private string _title;
         public string Title
         {
@@ -39,9 +39,26 @@ namespace TaskIt.Console.Models
                     throw new ArgumentException("Due date must be greater than creation Date");
             }
         }
-
         public DateTime? UpdateAt { get; private set; }
-        public Priority Priority{ get; set; }
-        public Status Status { get; set; } = Status.Pending;
+        public Priority priority{ get; private set; }
+        public Status status { get; set; } = Status.Pending;
+        public bool IsActive { get; set; } = true;
+
+
+        // Behaviour
+        public void Complete()
+        {
+            if (status == Status.Cancelled) throw new InvalidOperationException("A cancelled task cannot be completed");
+            status = Status.Complete;
+        }
+        public void ChangePriority(Priority priority)
+        {
+            this.priority = priority;
+        }
+        public void Delete()
+        {
+            if (status == Status.Pending || status == Status.Cancelled) IsActive = false;
+            else throw new InvalidOperationException($"{status.ToString()} task can not be deleted.");
+        }
     }
 }
